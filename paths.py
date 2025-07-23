@@ -9,13 +9,17 @@ PM = PathManager(
 # 2. Define and register specific directories and files. Available project-wide via PM.get().
 # 2.1 📁 Directories
 PM.update({
-    "Logs": PM["ROOT"] / "Logs"
+    "logs": PM["ROOT"] / "Logs",
+    "feature engineering metrics": PM["data"] / "Feature Engineering Metrics",
+    "feature engineering clip": PM["data"] / "Feature Engineering Clip Datasets",
+    "feature engineering unclip": PM["data"] / "Feature Engineering Unclip Datasets",
+    "serialized objects": PM["data"] / "Serialized Objects",
 })
 
 # 2.2 📄 Files
 PM.update({
     "raw data": PM["data"] / "epoxy_raw_data.csv",
-    "processed data": PM["data"] / "processed_data.csv"
+    "processed data": PM["data"] / "processed_data.csv",
 })
 
 # 3. 🛠️ Make directories and check status
