@@ -1,13 +1,14 @@
 TARGETS = [
-    "fracture_toughness(MPa*m0.5)",
-    "flexural_strength(MPa)",
-    "flexural_modulus(MPa)",
-    "impact_strength(kJ/m2)",
-    "young_modulus(MPa)",
-    "tensile_strength(MPa)",
-    "shear_strength(MPa)",
-    "elongation_at_break(%)"
+    "Fracture Toughness[MPa*m0.5]",  #Dropped
+    "Flexural Strength[MPa]",
+    "Flexural Modulus[MPa]",
+    "Impact Strength[kJ/m2]",
+    "Young Modulus[MPa]",
+    "Tensile Strength[MPa]",
+    "Shear Strength[MPa]", #Dropped
+    "Elongation at Break[%]"
 ]
+
 
 RAW_TARGETS = [
     "断裂韧性",
@@ -19,3 +20,32 @@ RAW_TARGETS = [
     "剪切强度",
     "断裂伸长率"
 ]
+
+
+FINAL_TARGETS = [
+    'Flexural Strength[MPa]', 
+    'Flexural Modulus[MPa]',
+    'Impact Strength[kJ/m2]', 
+    'Young Modulus[MPa]', 
+    'Tensile Strength[MPa]',
+    'Elongation at Break[%]'
+]
+
+
+CONTINUOUS_RANGE = {
+    'Molecular Weight[g/mol]': (),
+    'Epoxy/Curing Ratio': (),
+    'Carbon Fiber[%]': (0,100),
+    'Filler Proportion[%]': (0,100),
+    'Temperature[K]': ()
+}
+
+
+TARGETS_RANGE = {
+    FINAL_TARGETS[0]: (),
+    FINAL_TARGETS[1]: (),
+    FINAL_TARGETS[2]: (),
+    FINAL_TARGETS[3]: (),
+    FINAL_TARGETS[4]: (),
+    FINAL_TARGETS[5]: ()
+}

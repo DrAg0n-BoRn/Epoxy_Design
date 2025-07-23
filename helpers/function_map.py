@@ -1,6 +1,6 @@
 import polars as pl
 from .constants import TARGETS, RAW_TARGETS
-from ml_tools.ETL_engineering import TransformationRecipe, KeywordDummifier, NumberExtractor, MultiNumberExtractor, RatioCalculator
+from ml_tools.ETL_engineering import TransformationRecipe, KeywordDummifier, NumberExtractor, RatioCalculator
 
 
 TRANSFORMATION_RECIPE = TransformationRecipe()
@@ -8,11 +8,11 @@ TRANSFORMATION_RECIPE = TransformationRecipe()
 ##### "环氧": "epoxy"
 # One-hot encode into predefined groups
 epoxy_group_names = [
-        "epoxy_bisphenol_A/F", 
-        "epoxy_phenolic", 
-        "epoxy_aliphatic_cycloaliphatic", 
-        "epoxy_flexibly_modified", 
-        "epoxy_special_structure"
+        "epoxy_Bisphenol A/F", 
+        "epoxy_Phenolic", 
+        "epoxy_Aliphatic Cycloaliphatic", 
+        "epoxy_Flexibly Modified", 
+        "epoxy_Special Structure"
     ]
 
 epoxy_group_keywords = [
@@ -43,17 +43,26 @@ molecular_weight_transformer = NumberExtractor(
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "分子量",
-    output_col_names = "molecular_weight(g/mol)",
+    output_col_names = "Molecular Weight[g/mol]",
     transform = molecular_weight_transformer
 )
 
 ##### "固化剂": "curing agent"
 # One-hot encode into predefined groups
-# TODO
 curing_transformer = KeywordDummifier(
-    group_names = [],
+    group_names = [
+        "curing_Aromatic Amines",
+        "curing_Aliphatic Amines",
+        "curing_Anhydrides",
+        "curing_Imidazoles",
+        "curing_Phenolic Resins",
+    ],
     group_keywords = [
-        []
+        ["DDM", "PDA", "DDS", "ADPS", "二氨基二苯甲烷", "间苯二胺"],
+        ["二乙烯三胺", "D230", "D400", "DETDA", "三乙烯四胺", "DEAPA", "9035", "胺类固化剂"],
+        ["MTHPA", "HHPA", "MNA", "GA", "酸酐"],
+        ["咪唑"],
+        ["酚醛树脂"],
     ]
 )
 
@@ -69,7 +78,7 @@ ratio_epoxy_curing_transformer = RatioCalculator()
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "环氧/固化剂配比",
-    output_col_names = "epoxy_curing_ratio",
+    output_col_names = "Epoxy/Curing Ratio",
     transform = ratio_epoxy_curing_transformer
 )
 
@@ -82,17 +91,26 @@ carbon_fiber_transformer = NumberExtractor(
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "碳纤维含量",
-    output_col_names = "carbon_fiber(%)",
+    output_col_names = "Carbon Fiber[%]",
     transform = carbon_fiber_transformer
 )
 
 ##### "填料种类": "type of filler"
 # # One-hot encode into predefined groups
-# TODO
 filler_transformer = KeywordDummifier(
-    group_names = [],
+    group_names = [
+        "filler_Toughening",
+        "filler_Thermal Conductive",
+        "filler_Flame Retardant",
+        "filler_Electric-conductive/Shielding",
+        "filler_Reinforcement"
+    ],
     group_keywords = [
-        []
+        ["TBN", "PU", "纳米氧化铝", "竹纤维", "聚醚型聚氨酯预聚物", "PES", "改性竹长纤维", "AFV", "环氧基聚硅氧烷", "端羧基丁腈橡胶"],
+        ["BN", "Al"],
+        ["FR", "DOPO", "APP", "磷腈基阻燃剂", "含磷介孔杂化材料", "LD", "KDC", "PVD", "PA", "PDCP", "三聚氰胺", "二乙基次磷酸铝", "含磷介孔杂化材料"],
+        ["CN", "CB", "GR", "银粉", "镍粉", "GO", "AMGNS", "ZIF", "SiC"],
+        ["T300", "T700", "T800", "T1100", "玻璃纤维", "云母粉", "赤泥", "碳纤维"]
     ]
 )
 
@@ -103,71 +121,25 @@ TRANSFORMATION_RECIPE.add(
 )
 
 ##### "填料比例": "filler proportion"
-# Custom transformer
-def filler_proportion_transformer(col: pl.Series) -> pl.Series:
-    """
-    Parse ratios and percentages
-    """
-    parse_ratios = col.str.extract(r'(\d+\.?\d*\s?:\s?\d+\.?\d*)').to_list()
-    
-    cleaned_ratios = list()
-    for result_string in parse_ratios:
-        if result_string is None:
-            cleaned_ratios.append(None)
-        else:
-            left, right = result_string.strip().split(":")
-            left = round(float(left.strip()), 2)
-            right = round(float(right.strip()), 2)
-            if right == 0 and left == 0:
-                cleaned_ratios.append(None)
-            elif right == 0:
-                cleaned_ratios.append(left)
-            elif left == 0:
-                cleaned_ratios.append(right)
-            else:
-                true_ratio = 100 * left / right
-                cleaned_ratios.append(true_ratio)
-    
-    polars_ratios = pl.Series("ratios", cleaned_ratios)
-    
-    # parse numbers as fallback
-    parse_numbers = col.str.extract(r"(\d+\.?\d*)").cast(pl.Float64, strict=False)
-    
-    polars_numbers_expr = (
-        pl.when(parse_numbers.is_null()).then(None)
-        # .when(parse_numbers < 1.0).then(parse_numbers * 100)
-        # .when(parse_numbers < 10.0).then(parse_numbers * 10)
-        .otherwise(parse_numbers)
-        .round(2)
-        .alias("numbers")
-    )
-    
-    polars_numbers = pl.select(polars_numbers_expr).to_series()
-    
-    final_expr = (
-        pl.when(polars_ratios.is_null()).then(polars_numbers)
-        .otherwise(polars_ratios)
-        .round(2)
-        .alias("filler_proportion(%)")
-    )
-    
-    # evaluate and return expression
-    return pl.select(final_expr).to_series()
-
+# Parse percentage
+filler_proportion_transformer = NumberExtractor(round_digits=2)
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "填料比例",
-    output_col_names = "filler_proportion(%)",
+    output_col_names = "Filler Proportion[%]",
     transform = filler_proportion_transformer
 )
 
 ##### "促进剂": "accelerator"
 # # One-hot encode into predefined groups
-# TODO
 accelerator_transformer = KeywordDummifier(
-    group_names = [],
+    group_names = [
+        "accelerator_Amine-based",
+        "accelerator_Metal-salts",
+    ],
     group_keywords = [
-        []
+        ["DMP", "二甲基苄胺", "TEA", "三乙胺", "咪唑", "UR"],
+        ["乙酸锌", "乙酰丙酮锌", "辛酸"]
     ]
 )
 
@@ -186,7 +158,7 @@ accelerator_content_transformer = NumberExtractor(
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "促进剂含量",
-    output_col_names = "accelerator_content(%)",
+    output_col_names = "Accelerator Content[%]",
     transform = accelerator_content_transformer
 )
 
@@ -215,7 +187,7 @@ def temperature_transformer(col: pl.Series) -> pl.Series:
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "温度",
-    output_col_names = "temperature(K)",
+    output_col_names = "Temperature[K]",
     transform = temperature_transformer
 )
 
