@@ -1,0 +1,53 @@
+{
+    "环氧": "epoxy",
+    "环氧分类":{
+        "双酚 A/F 型": "Bisphenol A/F type",
+        "酚醛型": "Phenolic type",
+        "脂环族型": "Aliphatic cycloaliphatic type",
+        "柔性改性型": "Flexibly modified type",
+        "特殊结构型": "Special structure type"
+    },
+    "环氧化学式": "epoxy chemical formula",
+    "分子量": "molecular weight",
+    "固化剂": "curing agent",
+    "固化剂分类": {
+        "芳香胺类": "Aromatic amines",
+        "脂肪胺类": "Aliphatic amines",
+        "酸酐类": "Anhydrides",
+        "咪唑类": "Imidazoles",
+        "酚醛树脂类": "Phenolic resins",
+        "其他类型": "Other types"
+    },
+    "固化剂化学式": "curing agent chemical formula",
+    "环氧/固化剂配比": "epoxy/curing agent ratio",
+    "碳纤种类": "type of carbon fiber",
+    "碳纤维含量": "carbon fiber content",
+    "填料": "filler",
+    "填料种类": {
+        "增韧": "Toughening",
+        "导热": "Thermal conductivity",
+        "阻燃": "Flame retardant",
+        "导电 / 屏蔽": "Conductive / Shielding",
+        "增强": "Reinforcement",
+        "其他功能": "Other functions",
+        "无明确分类": "Unclassified"
+    },
+    "填料比例": "filler proportion",
+    "促进剂": "accelerator",
+    "促进剂分类": {
+        "胺类促进剂": "Amine-based accelerators",
+        "金属盐类": "Metal salts",
+        "其他类型": "Other types"
+    },
+    "促进剂含量": "accelerator content",
+    "温度": "temperature",
+
+    "断裂韧性": "fracture toughness",
+    "弯曲强度": "flexural strength",
+    "弯曲模量": "flexural modulus",
+    "冲击强度": "impact strength",
+    "杨氏模量": "Young's modulus",
+    "拉伸强度": "tensile strength",
+    "剪切强度": "shear strength",
+    "断裂伸长率": "elongation at break"
+}
