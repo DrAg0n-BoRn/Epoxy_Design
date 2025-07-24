@@ -6,20 +6,29 @@ PM = PathManager(
     base_directories=["helpers", "data", "results"]
 )
 
-# 2. Define and register specific directories and files. Available project-wide via PM.get().
+# 2. Define directories and files. Available project-wide via PM.get().
 # 2.1 📁 Directories
 PM.update({
     "logs": PM["ROOT"] / "Logs",
-    "feature engineering metrics": PM["data"] / "Feature Engineering Metrics",
-    "feature engineering clip": PM["data"] / "Feature Engineering Clip Datasets",
-    "feature engineering unclip": PM["data"] / "Feature Engineering Unclip Datasets",
     "serialized objects": PM["data"] / "Serialized Objects",
+    "feature engineering metrics": PM["results"] / "Feature Engineering Metrics",
+    "feature engineering clip": PM["data"] / "Feature Engineering Clip",
+    "feature engineering unclip": PM["data"] / "Feature Engineering Unclip",
+    "mice metrics": PM["results"] / "MICE Metrics",
+    "mice datasets": PM["data"] / "MICE Datasets",
+    "vif metrics": PM["results"] / "VIF Metrics",
+    "vif datasets": PM["data"] / "VIF Datasets",
+    "model metrics": PM["results"] / "Model Results",
+    "model datasets": PM["data"] / "Train Datasets",
+    "optimization models": PM["data"] / "Optimization Models",
+    "optimization results": PM["results"] / "Optimization Results"
 })
 
 # 2.2 📄 Files
 PM.update({
     "raw data": PM["data"] / "epoxy_raw_data.csv",
     "processed data": PM["data"] / "processed_data.csv",
+    "binary columns": PM["serialized objects"] / "BINARY_COLUMNS_list.joblib"
 })
 
 # 3. 🛠️ Make directories and check status
