@@ -22,6 +22,15 @@ RAW_TARGETS = [
 ]
 
 
+CONTINUOUS_RANGE = {
+    'Molecular Weight[g/mol]': (50,1700),
+    'Epoxy/Curing Ratio': (0.07,200),
+    'Carbon Fiber[%]': (0,70),
+    'Filler Proportion[%]': (0,85),
+    'Temperature[K]': (273,573)
+}
+
+
 FINAL_TARGETS = [
     'Flexural Strength[MPa]', 
     'Flexural Modulus[MPa]',
@@ -32,20 +41,11 @@ FINAL_TARGETS = [
 ]
 
 
-CONTINUOUS_RANGE = {
-    'Molecular Weight[g/mol]': (),
-    'Epoxy/Curing Ratio': (),
-    'Carbon Fiber[%]': (0,100),
-    'Filler Proportion[%]': (0,100),
-    'Temperature[K]': ()
-}
-
-
 TARGETS_RANGE = {
     FINAL_TARGETS[0]: (),
     FINAL_TARGETS[1]: (),
     FINAL_TARGETS[2]: (),
     FINAL_TARGETS[3]: (),
     FINAL_TARGETS[4]: (),
-    FINAL_TARGETS[5]: ()
+    FINAL_TARGETS[5]: (0,100)
 }
