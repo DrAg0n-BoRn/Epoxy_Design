@@ -1,4 +1,5 @@
-from ml_tools.PSO_optimization import multiple_objective_functions_from_dir, plot_optimal_feature_distributions, parse_lower_upper_bounds, run_pso
+from ml_tools.PSO_optimization import multiple_objective_functions_from_dir, run_pso
+from ml_tools.optimization_tools import plot_optimal_feature_distributions, parse_lower_upper_bounds
 from ml_tools.utilities import deserialize_object 
 from paths import PM
 from helpers.constants import CONTINUOUS_RANGE
