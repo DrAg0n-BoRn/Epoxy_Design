@@ -1,3 +1,4 @@
+### Raw data
 TARGETS = [
     "Fracture Toughness[MPa*m0.5]",  #Dropped
     "Flexural Strength[MPa]",
@@ -8,7 +9,6 @@ TARGETS = [
     "Shear Strength[MPa]", #Dropped
     "Elongation at Break[%]"
 ]
-
 
 RAW_TARGETS = [
     "断裂韧性",
@@ -22,15 +22,7 @@ RAW_TARGETS = [
 ]
 
 
-CONTINUOUS_RANGE = {
-    'Molecular Weight[g/mol]': (50,1700),
-    'Epoxy/Curing Ratio': (0.07,200),
-    'Carbon Fiber[%]': (0,70),
-    'Filler Proportion[%]': (0,85),
-    'Temperature[K]': (273,573)
-}
-
-
+### Preprocess data
 FINAL_TARGETS = [
     'Flexural Strength[MPa]', 
     'Flexural Modulus[MPa]',
@@ -40,6 +32,19 @@ FINAL_TARGETS = [
     'Elongation at Break[%]'
 ]
 
+NUMBER_FEATURES = 0
+
+NUMBER_BINARY_FEATURES = 0
+
+
+### Allowed Value ranges
+CONTINUOUS_RANGE = {
+    'Molecular Weight[g/mol]': (50,1700),
+    'Epoxy/Curing Ratio': (0.07,200),
+    'Carbon Fiber[%]': (0,70),
+    'Filler Proportion[%]': (0,85),
+    'Temperature[K]': (273,573)
+}
 
 TARGETS_RANGE = {
     FINAL_TARGETS[0]: (),
@@ -49,3 +54,30 @@ TARGETS_RANGE = {
     FINAL_TARGETS[4]: (),
     FINAL_TARGETS[5]: (0,100)
 }
+
+
+### OPTIMAL value ranges
+CONTINUOUS_RANGE_OPTIMAL = {
+    'Molecular Weight[g/mol]': (50,1700),
+    'Epoxy/Curing Ratio': (0.07,200),
+    'Carbon Fiber[%]': (0,70),
+    'Filler Proportion[%]': (0,85),
+    'Temperature[K]': (273,573)
+}
+
+TARGETS_RANGE_OPTIMAL = {
+    FINAL_TARGETS[0]: (),
+    FINAL_TARGETS[1]: (),
+    FINAL_TARGETS[2]: (),
+    FINAL_TARGETS[3]: (),
+    FINAL_TARGETS[4]: (),
+    FINAL_TARGETS[5]: (0,100)
+}
+
+
+### Machine Learning
+MODEL_HIDDEN_LAYERS = [200,150,100,50,20]
+
+INITIAL_LEARNING_RATE = 0.001
+
+DROP_OUT_RATE = 0.2
