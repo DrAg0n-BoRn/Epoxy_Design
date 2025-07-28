@@ -28,6 +28,7 @@ PM.update({
 PM.update({
     "raw data": PM["data"] / "epoxy_raw_data.csv",
     "processed data": PM["data"] / "processed_data.csv",
+    "feature columns": PM["serialized objects"] / "FEATURE_COLUMNS_list.joblib",
     "binary columns": PM["serialized objects"] / "BINARY_COLUMNS_list.joblib"
 })
 
