@@ -22,7 +22,8 @@ def single_run(df: pandas.DataFrame, df_name: str):
     local_dir = make_fullpath(PM["model metrics"] / df_name, make=True, enforce="directory")
     
     # Make dataset
-    current_dataset = SimpleDatasetMaker(pandas_df=df)
+    current_dataset = SimpleDatasetMaker(pandas_df=df,
+                                         kind="regression")
     
     # Define neural network architecture
     model = MultilayerPerceptron(in_features=len(current_dataset.feature_names),
@@ -41,13 +42,14 @@ def single_run(df: pandas.DataFrame, df_name: str):
     
     # Define callbacks
     callback_early_stop = EarlyStopping(monitor=LogKeys.VAL_LOSS,
-                                        mode='min')
+                                        mode='min',
+                                        patience=10)
     
     callback_checkpoint = ModelCheckpoint(save_dir=local_dir,
-                                        save_best_only=True)
+                                          save_best_only=True)
     
     callback_scheduler = LRScheduler(scheduler=reduce_lr_on_plateau,
-                                    monitor=LogKeys.VAL_LOSS)
+                                     monitor=LogKeys.VAL_LOSS)
     
     all_callbacks = [
         callback_early_stop,
@@ -62,7 +64,7 @@ def single_run(df: pandas.DataFrame, df_name: str):
                         kind="regression",
                         criterion=loss_function,
                         optimizer=optimizer,
-                        device="cuda:0",
+                        device="mps",
                         dataloader_workers=4,
                         callbacks=all_callbacks)
     
@@ -83,7 +85,7 @@ def single_run(df: pandas.DataFrame, df_name: str):
         "Task": "regression",
         "Model Architecture": repr(model),
         "Drop-out Rate": DROP_OUT_RATE,
-        "Dataframe": df_name,
+        "Dataset": df_name,
         "Target": current_dataset.target_name,
         "Number of Features": len(current_dataset.feature_names),
         "Features": current_dataset.feature_names
