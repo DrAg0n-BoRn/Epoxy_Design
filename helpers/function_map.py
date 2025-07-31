@@ -43,7 +43,7 @@ molecular_weight_transformer = NumberExtractor(
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "分子量",
-    output_col_names = "Molecular Weight[g/mol]",
+    output_col_names = "Molecular Weight(g/mol)",
     transform = molecular_weight_transformer
 )
 
@@ -91,7 +91,7 @@ carbon_fiber_transformer = NumberExtractor(
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "碳纤维含量",
-    output_col_names = "Carbon Fiber[%]",
+    output_col_names = "Carbon Fiber(%)",
     transform = carbon_fiber_transformer
 )
 
@@ -126,7 +126,7 @@ filler_proportion_transformer = NumberExtractor(round_digits=2)
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "填料比例",
-    output_col_names = "Filler Proportion[%]",
+    output_col_names = "Filler Proportion(%)",
     transform = filler_proportion_transformer
 )
 
@@ -158,7 +158,7 @@ accelerator_content_transformer = NumberExtractor(
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "促进剂含量",
-    output_col_names = "Accelerator Content[%]",
+    output_col_names = "Accelerator Content(%)",
     transform = accelerator_content_transformer
 )
 
@@ -187,7 +187,7 @@ def temperature_transformer(col: pl.Series) -> pl.Series:
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "温度",
-    output_col_names = "Temperature[K]",
+    output_col_names = "Temperature(K)",
     transform = temperature_transformer
 )
 
