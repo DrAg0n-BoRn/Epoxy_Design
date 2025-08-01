@@ -23,6 +23,10 @@ RAW_TARGETS = [
 
 
 ### Preprocess data
+NUMBER_FEATURES = 20
+
+NUMBER_BINARY_FEATURES = 15
+
 FINAL_TARGETS = [
     'Flexural Strength(MPa)', 
     'Flexural Modulus(MPa)',
@@ -32,20 +36,8 @@ FINAL_TARGETS = [
     'Elongation at Break(%)'
 ]
 
-NUMBER_FEATURES = 20
-
-NUMBER_BINARY_FEATURES = 15
-
 
 ### Allowed Value ranges
-CONTINUOUS_RANGE = {
-    'Molecular Weight(g/mol)': (50,1700),
-    'Epoxy/Curing Ratio': (1,200),
-    'Carbon Fiber(%)': (0,70),
-    'Filler Proportion(%)': (0,85),
-    'Temperature(K)': (273,573)
-}
-
 TARGETS_RANGE = {
     FINAL_TARGETS[0]: (0,7400),
     FINAL_TARGETS[1]: (0,200000),
@@ -55,23 +47,21 @@ TARGETS_RANGE = {
     FINAL_TARGETS[5]: (0,400)
 }
 
-
-### OPTIMAL value ranges
-CONTINUOUS_RANGE_OPTIMAL = {
+CONTINUOUS_RANGE = {
     'Molecular Weight(g/mol)': (50,1700),
-    'Epoxy/Curing Ratio': (0.07,200),
+    'Epoxy/Curing Ratio': (1,200),
     'Carbon Fiber(%)': (0,70),
     'Filler Proportion(%)': (0,85),
     'Temperature(K)': (273,573)
 }
 
-TARGETS_RANGE_OPTIMAL = {
-    FINAL_TARGETS[0]: (),
-    FINAL_TARGETS[1]: (),
-    FINAL_TARGETS[2]: (),
-    FINAL_TARGETS[3]: (),
-    FINAL_TARGETS[4]: (),
-    FINAL_TARGETS[5]: (0,100)
+### OPTIMAL value ranges
+CONTINUOUS_RANGE_OPTIMAL = {
+    'Molecular Weight(g/mol)': (50,1700),
+    'Epoxy/Curing Ratio': (1,200),
+    'Carbon Fiber(%)': (0,70),
+    'Filler Proportion(%)': (0,85),
+    'Temperature(K)': (273,573)
 }
 
 
