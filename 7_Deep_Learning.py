@@ -9,8 +9,8 @@ from ml_tools import custom_logger
 from ml_tools.ML_datasetmaster import SimpleDatasetMaker
 from ml_tools.ML_models import MultilayerPerceptron
 from ml_tools.ML_callbacks import EarlyStopping, ModelCheckpoint, LRScheduler
-from ml_tools.ML_trainer import MyTrainer
-from ml_tools.keys import LogKeys
+from ml_tools.ML_trainer import MLTrainer
+from ml_tools.keys import PyTorchLogKeys
 
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.optim import Adam
@@ -41,15 +41,16 @@ def single_run(df: pandas.DataFrame, df_name: str):
     reduce_lr_on_plateau = ReduceLROnPlateau(optimizer=optimizer, mode='min')
     
     # Define callbacks
-    callback_early_stop = EarlyStopping(monitor=LogKeys.VAL_LOSS,
+    callback_early_stop = EarlyStopping(monitor=PyTorchLogKeys.VAL_LOSS,
                                         mode='min',
                                         patience=10)
     
     callback_checkpoint = ModelCheckpoint(save_dir=local_dir,
+                                          checkpoint_name=current_dataset.target_name,
                                           save_best_only=True)
     
     callback_scheduler = LRScheduler(scheduler=reduce_lr_on_plateau,
-                                     monitor=LogKeys.VAL_LOSS)
+                                     monitor=PyTorchLogKeys.VAL_LOSS)
     
     all_callbacks = [
         callback_early_stop,
@@ -58,7 +59,7 @@ def single_run(df: pandas.DataFrame, df_name: str):
     ]
     
     # Define Trainer
-    trainer = MyTrainer(model=model,
+    trainer = MLTrainer(model=model,
                         train_dataset=current_dataset.train_dataset,
                         test_dataset=current_dataset.test_dataset,
                         kind="regression",
@@ -70,7 +71,7 @@ def single_run(df: pandas.DataFrame, df_name: str):
     
     # Train model
     history_log = trainer.fit(epochs=200,
-                              batch_size=10,
+                              batch_size=5,
                               shuffle=True)
     
     # Evaluate
