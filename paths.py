@@ -29,7 +29,9 @@ PM.update({
     "raw data": PM["data"] / "epoxy_raw_data.csv",
     "processed data": PM["data"] / "processed_data.csv",
     "feature columns": PM["serialized objects"] / "FEATURE_COLUMNS_list.joblib",
-    "binary columns": PM["serialized objects"] / "BINARY_COLUMNS_list.joblib"
+    "binary columns": PM["serialized objects"] / "BINARY_COLUMNS_list.joblib",
+    "feature names": PM["optimization models"] / "feature_names.txt",
+    "model architecture": PM["optimization models"] / "architecture.json"
 })
 
 # 3. 🛠️ Make directories and check status
