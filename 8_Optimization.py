@@ -2,30 +2,26 @@ from pathlib import Path
 from typing import Union
 
 from paths import PM
-from helpers.constants import DROP_OUT_RATE, MODEL_HIDDEN_LAYERS, CONTINUOUS_RANGE_OPTIMAL, NUMBER_FEATURES, NUMBER_BINARY_FEATURES
+from helpers.constants import CONTINUOUS_RANGE_OPTIMAL, NUMBER_BINARY_FEATURES
 
-from ml_tools.utilities import deserialize_object
 from ml_tools.path_manager import list_files_by_extension
-from ml_tools.ML_models import MultilayerPerceptron
+from ml_tools.ML_models import MultilayerPerceptron, load_architecture
 from ml_tools.ML_inference import PyTorchInferenceHandler
 from ml_tools.ML_optimization import create_pytorch_problem, run_optimization
 from ml_tools.optimization_tools import parse_lower_upper_bounds, plot_optimal_feature_distributions
+from ml_tools.custom_logger import load_list_strings
 
 
 # --- Global Variables ---
 # Bounds
 lower_upper_tuple = parse_lower_upper_bounds(source=CONTINUOUS_RANGE_OPTIMAL)
 # feature names
-feature_names: list[str] = deserialize_object(PM["feature columns"]) # type: ignore
-
+feature_names = load_list_strings(text_file=PM["feature names"])
 
 # --- single model function ---
 def single_model_optimization(state_dict_path: Union[str,Path], target_name: str, number_generations: int, repetitions: int):
     # Model architecture
-    model = MultilayerPerceptron(in_features=NUMBER_FEATURES,
-                                out_targets=1,
-                                hidden_layers=MODEL_HIDDEN_LAYERS,
-                                drop_out=DROP_OUT_RATE)
+    model = load_architecture(filepath=PM["model architecture"], expected_model_class=MultilayerPerceptron, verbose=False)
 
     # Define pytorch handler
     pytorch_handler = PyTorchInferenceHandler(model=model,
@@ -65,8 +61,8 @@ def main():
     for target_filename, fpath in model_weights_dict.items():
         single_model_optimization(state_dict_path=fpath,
             target_name=target_filename,
-            number_generations=500,
-            repetitions=20)
+            number_generations=600,
+            repetitions=25)
 
 
 if __name__ == "__main__":

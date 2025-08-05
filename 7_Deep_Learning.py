@@ -7,7 +7,7 @@ from ml_tools.utilities import yield_dataframes_from_dir
 from ml_tools import custom_logger
 
 from ml_tools.ML_datasetmaster import SimpleDatasetMaker
-from ml_tools.ML_models import MultilayerPerceptron
+from ml_tools.ML_models import MultilayerPerceptron, save_architecture
 from ml_tools.ML_callbacks import EarlyStopping, ModelCheckpoint, LRScheduler
 from ml_tools.ML_trainer import MLTrainer
 from ml_tools.keys import PyTorchLogKeys
@@ -25,11 +25,17 @@ def single_run(df: pandas.DataFrame, df_name: str):
     current_dataset = SimpleDatasetMaker(pandas_df=df,
                                          kind="regression")
     
+    # Save feature names
+    current_dataset.save_feature_names(directory=local_dir)
+    
     # Define neural network architecture
     model = MultilayerPerceptron(in_features=len(current_dataset.feature_names),
                                 out_targets=1,
                                 hidden_layers=MODEL_HIDDEN_LAYERS,
                                 drop_out=DROP_OUT_RATE)
+    
+    # Save architecture
+    save_architecture(model=model, directory=local_dir)
     
     # define loss function
     loss_function = MSELoss()
@@ -47,6 +53,8 @@ def single_run(df: pandas.DataFrame, df_name: str):
     
     callback_checkpoint = ModelCheckpoint(save_dir=local_dir,
                                           checkpoint_name=current_dataset.target_name,
+                                          monitor=PyTorchLogKeys.VAL_LOSS,
+                                          mode="min",
                                           save_best_only=True)
     
     callback_scheduler = LRScheduler(scheduler=reduce_lr_on_plateau,
@@ -71,7 +79,7 @@ def single_run(df: pandas.DataFrame, df_name: str):
     
     # Train model
     history_log = trainer.fit(epochs=200,
-                              batch_size=5,
+                              batch_size=8,
                               shuffle=True)
     
     # Evaluate
