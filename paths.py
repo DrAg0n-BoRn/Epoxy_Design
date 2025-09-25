@@ -27,6 +27,8 @@ PM.update({
 # 2.2 📄 Files
 PM.update({
     "raw data": PM["data"] / "epoxy_raw_data.csv",
+    "clean data": PM["data"] / "cleaned_data.csv",
+    "epoxy map": PM["data"] / "epoxy_map.csv",
     "processed data": PM["data"] / "processed_data.csv",
     "feature columns": PM["serialized objects"] / "FEATURE_COLUMNS_list.joblib",
     "binary columns": PM["serialized objects"] / "BINARY_COLUMNS_list.joblib",

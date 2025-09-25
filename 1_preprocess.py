@@ -12,7 +12,7 @@ def preprocess_data() -> None:
     PROCESSOR = DataProcessor(recipe=TRANSFORMATION_RECIPE)
     
     # load raw data csv
-    df, _ = load_dataframe(df_path=PM["raw data"], kind="polars", all_strings=True)
+    df, _ = load_dataframe(df_path=PM["clean data"], kind="polars", all_strings=True)
     
     # Process df
     df_preprocessed = PROCESSOR.transform(df=df) # type: ignore

@@ -7,45 +7,54 @@ TRANSFORMATION_RECIPE = TransformationRecipe()
 
 ##### "环氧": "epoxy"
 # One-hot encode into predefined groups
-epoxy_group_names = [
-        "epoxy_Bisphenol A/F", 
-        "epoxy_Phenolic", 
-        "epoxy_Aliphatic Cycloaliphatic", 
-        "epoxy_Flexibly Modified", 
-        "epoxy_Special Structure"
-    ]
+# epoxy_group_names = [
+#         "epoxy_Bisphenol A/F", 
+#         "epoxy_Phenolic", 
+#         "epoxy_Aliphatic Cycloaliphatic", 
+#         "epoxy_Flexibly Modified", 
+#         "epoxy_Special Structure"
+#     ]
 
-epoxy_group_keywords = [
-        ["E-5", "E5", "E-4", "E4", "DGEBA", "BADGE", "NPEL", "双酚 F", "双酚F", "E1NT", "二烯丙基双酚", "桐油基两", "桐油基三", "TED", "AG", "柚皮素环氧树脂", "BH140", "MFE"],
-        ["酚醛"],
-        ["TDE"],
-        ["PUS", "柔性改性环氧树脂", "PDMS"],
-        ["TGDDM", "DCPD", "HER", "噁唑烷酮改性环氧树脂", "自固化羧基功能化双酚", "桐油基环氧树脂", "环三膦腈"]
-    ]
+# epoxy_group_keywords = [
+#         ["E-5", "E5", "E-4", "E4", "DGEBA", "BADGE", "NPEL", "双酚 F", "双酚F", "E1NT", "二烯丙基双酚", "桐油基两", "桐油基三", "TED", "AG", "柚皮素环氧树脂", "BH140", "MFE"],
+#         ["酚醛"],
+#         ["TDE"],
+#         ["PUS", "柔性改性环氧树脂", "PDMS"],
+#         ["TGDDM", "DCPD", "HER", "噁唑烷酮改性环氧树脂", "自固化羧基功能化双酚", "桐油基环氧树脂", "环三膦腈"]
+#     ]
 
-epoxy_transformer = KeywordDummifier(
-    group_names = epoxy_group_names,
-    group_keywords = epoxy_group_keywords
-)
+# epoxy_transformer = KeywordDummifier(
+#     group_names = epoxy_group_names,
+#     group_keywords = epoxy_group_keywords
+# )
 
-TRANSFORMATION_RECIPE.add(
-    input_col_name = "环氧",
-    output_col_names = epoxy_group_names,
-    transform = epoxy_transformer
-)
+# TRANSFORMATION_RECIPE.add(
+#     input_col_name = "环氧",
+#     output_col_names = epoxy_group_names,
+#     transform = epoxy_transformer
+# )
 
 ##### "分子量": "molecular weight"
 # Extract the molecular weight from the column
-molecular_weight_transformer = NumberExtractor(
-    dtype = "float",
-    round_digits = 2
-)
+# molecular_weight_transformer = NumberExtractor(
+#     dtype = "float",
+#     round_digits = 2
+# )
 
+# TRANSFORMATION_RECIPE.add(
+#     input_col_name = "分子量",
+#     output_col_names = "Molecular Weight(g/mol)",
+#     transform = molecular_weight_transformer
+# )
+
+# --- NEW Approach ---
+# Categories based on the molecular weight values, keep as is after cleaning
 TRANSFORMATION_RECIPE.add(
-    input_col_name = "分子量",
-    output_col_names = "Molecular Weight(g/mol)",
-    transform = molecular_weight_transformer
-)
+    input_col_name="分子量",
+    output_col_names="Molecular Weight",
+    transform="rename")
+
+
 
 ##### "固化剂": "curing agent"
 # One-hot encode into predefined groups
