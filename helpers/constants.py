@@ -23,9 +23,9 @@ RAW_TARGETS = [
 
 
 ### Preprocess data
-NUMBER_FEATURES = 20
+NUMBER_FEATURES = 57
 
-NUMBER_BINARY_FEATURES = 15
+NUMBER_BINARY_FEATURES = 53
 
 FINAL_TARGETS = [
     'Flexural Strength(MPa)', 
@@ -48,7 +48,6 @@ TARGETS_RANGE = {
 }
 
 CONTINUOUS_RANGE = {
-    'Molecular Weight(g/mol)': (50,1700),
     'Epoxy/Curing Ratio': (1,200),
     'Carbon Fiber(%)': (0,70),
     'Filler Proportion(%)': (0,85),
@@ -57,7 +56,6 @@ CONTINUOUS_RANGE = {
 
 ### OPTIMAL value ranges
 CONTINUOUS_RANGE_OPTIMAL = {
-    'Molecular Weight(g/mol)': (50,1700),
     'Epoxy/Curing Ratio': (1,200),
     'Carbon Fiber(%)': (0,70),
     'Filler Proportion(%)': (0,85),
