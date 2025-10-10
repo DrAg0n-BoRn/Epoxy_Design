@@ -1,15 +1,4 @@
 ### Raw data
-TARGETS = [
-    "Fracture Toughness(MPa m0.5)",  #Dropped
-    "Flexural Strength(MPa)",
-    "Flexural Modulus(MPa)",
-    "Impact Strength(kJ/m2)",
-    "Young Modulus(MPa)",
-    "Tensile Strength(MPa)",
-    "Shear Strength(MPa)", #Dropped
-    "Elongation at Break(%)"
-]
-
 RAW_TARGETS = [
     "断裂韧性",
     "弯曲强度",
@@ -21,30 +10,34 @@ RAW_TARGETS = [
     "断裂伸长率"
 ]
 
-
-### Preprocess data
-NUMBER_FEATURES = 57
-
-NUMBER_BINARY_FEATURES = 53
-
-FINAL_TARGETS = [
-    'Flexural Strength(MPa)', 
-    'Flexural Modulus(MPa)',
-    'Impact Strength(kJ/m2)', 
-    'Young Modulus(MPa)', 
-    'Tensile Strength(MPa)',
-    'Elongation at Break(%)'
+TARGETS = [
+    "Fracture Toughness(MPa m0.5)",  #Dropped
+    "Flexural Strength(MPa)",
+    "Flexural Modulus(MPa)",
+    "Impact Strength(kJ/m2)",
+    "Young Modulus(MPa)",
+    "Tensile Strength(MPa)",
+    "Shear Strength(MPa)", #Dropped
+    "Elongation at Break(%)"
 ]
 
+OPTIMIZATION_TARGETS = [
+    "Flexural Strength(MPa)",
+    "Flexural Modulus(MPa)",
+    "Impact Strength(kJ/m2)",
+    "Young Modulus(MPa)",
+    "Tensile Strength(MPa)",
+    "Elongation at Break(%)"
+]
 
-### Allowed Value ranges
+### Value ranges
 TARGETS_RANGE = {
-    FINAL_TARGETS[0]: (0,7400),
-    FINAL_TARGETS[1]: (0,200000),
-    FINAL_TARGETS[2]: (0,400),
-    FINAL_TARGETS[3]: (0,300000),
-    FINAL_TARGETS[4]: (0,6000),
-    FINAL_TARGETS[5]: (0,400)
+    "Flexural Strength(MPa)": (0,7400),
+    "Flexural Modulus(MPa)": (0,200000),
+    "Impact Strength(kJ/m2)": (0,400),
+    "Young Modulus(MPa)": (0,300000),
+    "Tensile Strength(MPa)": (0,6000),
+    "Elongation at Break(%)": (0,400)
 }
 
 CONTINUOUS_RANGE = {
@@ -54,18 +47,27 @@ CONTINUOUS_RANGE = {
     'Temperature(K)': (273,573)
 }
 
-### OPTIMAL value ranges
-CONTINUOUS_RANGE_OPTIMAL = {
+OPTIMIZATION_CONTINUOUS_RANGE = {
     'Epoxy/Curing Ratio': (1,200),
     'Carbon Fiber(%)': (0,70),
     'Filler Proportion(%)': (0,85),
     'Temperature(K)': (273,573)
 }
 
-
 ### Machine Learning
-MODEL_HIDDEN_LAYERS = [200,150,100,50,20]
+MODEL_HIDDEN_LAYERS = [550,450,350,250,150,50]
 
-INITIAL_LEARNING_RATE = 0.001
+MODEL_INITIAL_LEARNING_RATE = 0.001
 
-DROP_OUT_RATE = 0.2
+MODEL_DROP_OUT_RATE = 0.2
+
+MODEL_TEST_SIZE = 0.2
+
+### Optimization
+OPTIMIZATION_HIDDEN_LAYERS = [120, 90, 60, 30]
+
+OPTIMIZATION_INITIAL_LEARNING_RATE = 0.001
+
+OPTIMIZATION_DROP_OUT_RATE = 0.2
+
+OPTIMIZATION_TEST_SIZE = 0.2

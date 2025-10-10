@@ -1,5 +1,5 @@
 from paths import PM
-from helpers.constants import MODEL_HIDDEN_LAYERS, MODEL_INITIAL_LEARNING_RATE, MODEL_DROP_OUT_RATE, MODEL_TEST_SIZE
+from helpers.constants import OPTIMIZATION_HIDDEN_LAYERS, OPTIMIZATION_DROP_OUT_RATE, OPTIMIZATION_INITIAL_LEARNING_RATE, OPTIMIZATION_TEST_SIZE
 import pandas
 
 from ml_tools.path_manager import make_fullpath
@@ -7,7 +7,7 @@ from ml_tools.utilities import yield_dataframes_from_dir, deserialize_object
 from ml_tools import custom_logger
 
 from ml_tools.ML_datasetmaster import DatasetMaker
-from ml_tools.ML_models import MultilayerPerceptron
+from ml_tools.ML_models import AttentionMLP
 from ml_tools.ML_callbacks import EarlyStopping, ModelCheckpoint, LRScheduler
 from ml_tools.ML_trainer import MLTrainer
 from ml_tools.keys import PyTorchLogKeys
@@ -19,13 +19,13 @@ from torch.nn import MSELoss
 
 def single_run(df: pandas.DataFrame, df_name: str):
     # Local directory
-    local_dir = make_fullpath(PM["train metrics"] / df_name, make=True, enforce="directory")
+    local_dir = make_fullpath(PM["optimization train metrics"] / df_name, make=True, enforce="directory")
     
     # Make dataset
     current_dataset = DatasetMaker(pandas_df=df, 
                                    kind="regression",
                                    continuous_feature_columns=CONTINUOUS_FEATURES,
-                                   test_size=MODEL_TEST_SIZE)
+                                   test_size=OPTIMIZATION_TEST_SIZE)
     
     # Save feature names
     current_dataset.save_feature_names(directory=local_dir)
@@ -33,10 +33,10 @@ def single_run(df: pandas.DataFrame, df_name: str):
     current_dataset.save_scaler(save_dir=local_dir)
     
     # Define neural network architecture
-    model = MultilayerPerceptron(in_features=len(current_dataset.feature_names),
-                                out_targets=1,
-                                hidden_layers=MODEL_HIDDEN_LAYERS,
-                                drop_out=MODEL_DROP_OUT_RATE)
+    model = AttentionMLP(in_features=len(current_dataset.feature_names),
+                        out_targets=1,
+                        hidden_layers=OPTIMIZATION_HIDDEN_LAYERS,
+                        drop_out=OPTIMIZATION_DROP_OUT_RATE)
     
     # Save architecture
     model.save(directory=local_dir)
@@ -45,7 +45,7 @@ def single_run(df: pandas.DataFrame, df_name: str):
     loss_function = MSELoss()
     
     # Define optimizer
-    optimizer = Adam(model.parameters(), lr=MODEL_INITIAL_LEARNING_RATE)
+    optimizer = Adam(model.parameters(), lr=OPTIMIZATION_INITIAL_LEARNING_RATE)
     
     # define LR scheduler
     reduce_lr_on_plateau = ReduceLROnPlateau(optimizer=optimizer, mode='min')
@@ -92,11 +92,13 @@ def single_run(df: pandas.DataFrame, df_name: str):
     # Explain
     trainer.explain(save_dir=local_dir)
     
+    # Explain Attention
+    trainer.explain_attention(save_dir=local_dir, feature_names=current_dataset.feature_names)
+    
     # save log
     log_dict = {
         "Task": "regression",
         "Dataset": df_name,
-        "Test Size": MODEL_TEST_SIZE,
         "Targets": current_dataset.target_names,
         "Number of Features": len(current_dataset.feature_names),
         "Features": current_dataset.feature_names
@@ -108,12 +110,12 @@ def single_run(df: pandas.DataFrame, df_name: str):
 
 
 def main():
-    for df, df_name in yield_dataframes_from_dir(datasets_dir=PM["train datasets"]):
+    for df, df_name in yield_dataframes_from_dir(datasets_dir=PM["optimization engineering"]):
         single_run(df, df_name)
 
 
 if __name__ == "__main__":
     global CONTINUOUS_FEATURES
-    CONTINUOUS_FEATURES: list[str] = deserialize_object(filepath=PM["continuous columns"]) # type: ignore
+    CONTINUOUS_FEATURES: list[str] = deserialize_object(filepath=PM["optimization continuous columns"]) # type: ignore
     
     main()

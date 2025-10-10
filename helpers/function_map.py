@@ -1,6 +1,6 @@
 import polars as pl
 from .constants import TARGETS, RAW_TARGETS
-from ml_tools.ETL_engineering import TransformationRecipe, KeywordDummifier, NumberExtractor, RatioCalculator
+from ml_tools.ETL_engineering import TransformationRecipe, KeywordDummifier, NumberExtractor, TriRatioCalculator, AutoDummifier, TemperatureExtractor
 
 
 TRANSFORMATION_RECIPE = TransformationRecipe()
@@ -28,11 +28,15 @@ TRANSFORMATION_RECIPE = TransformationRecipe()
 #     group_keywords = epoxy_group_keywords
 # )
 
-# TRANSFORMATION_RECIPE.add(
-#     input_col_name = "环氧",
-#     output_col_names = epoxy_group_names,
-#     transform = epoxy_transformer
-# )
+epoxy_transformer = AutoDummifier()
+
+TRANSFORMATION_RECIPE.add(
+    input_col_name = "环氧",
+    output_col_names = "Epoxy",
+    transform = epoxy_transformer
+)
+
+
 
 ##### "分子量": "molecular weight"
 # Extract the molecular weight from the column
@@ -47,47 +51,41 @@ TRANSFORMATION_RECIPE = TransformationRecipe()
 #     transform = molecular_weight_transformer
 # )
 
-# --- NEW Approach ---
-# Categories based on the molecular weight values, keep as is after cleaning
-TRANSFORMATION_RECIPE.add(
-    input_col_name="分子量",
-    output_col_names="Molecular Weight",
-    transform="rename")
-
-
 
 ##### "固化剂": "curing agent"
 # One-hot encode into predefined groups
-curing_transformer = KeywordDummifier(
-    group_names = [
-        "curing_Aromatic Amines",
-        "curing_Aliphatic Amines",
-        "curing_Anhydrides",
-        "curing_Imidazoles",
-        "curing_Phenolic Resins",
-    ],
-    group_keywords = [
-        ["DDM", "PDA", "DDS", "ADPS", "二氨基二苯甲烷", "间苯二胺"],
-        ["二乙烯三胺", "D230", "D400", "DETDA", "三乙烯四胺", "DEAPA", "9035", "胺类固化剂"],
-        ["MTHPA", "HHPA", "MNA", "GA", "酸酐"],
-        ["咪唑"],
-        ["酚醛树脂"],
-    ]
-)
+# curing_transformer = KeywordDummifier(
+#     group_names = [
+#         "curing_Aromatic Amines",
+#         "curing_Aliphatic Amines",
+#         "curing_Anhydrides",
+#         "curing_Imidazoles",
+#         "curing_Phenolic Resins",
+#     ],
+#     group_keywords = [
+#         ["DDM", "PDA", "DDS", "ADPS", "二氨基二苯甲烷", "间苯二胺"],
+#         ["二乙烯三胺", "D230", "D400", "DETDA", "三乙烯四胺", "DEAPA", "9035", "胺类固化剂"],
+#         ["MTHPA", "HHPA", "MNA", "GA", "酸酐"],
+#         ["咪唑"],
+#         ["酚醛树脂"],
+#     ]
+# )
+
+curing_transformer = AutoDummifier()
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "固化剂",
-    output_col_names = curing_transformer.group_names,
+    output_col_names = "Curing",
     transform = curing_transformer
 )
 
 ##### "环氧/固化剂配比": "epoxy/curing agent ratio"
 # extract the ratio
-ratio_epoxy_curing_transformer = RatioCalculator()
+ratio_epoxy_curing_transformer = TriRatioCalculator(handle_zeros=True)
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "环氧/固化剂配比",
-    output_col_names = "Epoxy/Curing Ratio",
+    output_col_names = ["Epoxy/Epoxy Ratio", "Epoxy/Curing Ratio"],
     transform = ratio_epoxy_curing_transformer
 )
 
@@ -106,26 +104,27 @@ TRANSFORMATION_RECIPE.add(
 
 ##### "填料种类": "type of filler"
 # # One-hot encode into predefined groups
-filler_transformer = KeywordDummifier(
-    group_names = [
-        "filler_Toughening",
-        "filler_Thermal Conductive",
-        "filler_Flame Retardant",
-        "filler_Electric-conductive/Shielding",
-        "filler_Reinforcement"
-    ],
-    group_keywords = [
-        ["TBN", "PU", "纳米氧化铝", "竹纤维", "聚醚型聚氨酯预聚物", "PES", "改性竹长纤维", "AFV", "环氧基聚硅氧烷", "端羧基丁腈橡胶"],
-        ["BN", "Al"],
-        ["FR", "DOPO", "APP", "磷腈基阻燃剂", "含磷介孔杂化材料", "LD", "KDC", "PVD", "PA", "PDCP", "三聚氰胺", "二乙基次磷酸铝", "含磷介孔杂化材料"],
-        ["CN", "CB", "GR", "银粉", "镍粉", "GO", "AMGNS", "ZIF", "SiC"],
-        ["T300", "T700", "T800", "T1100", "玻璃纤维", "云母粉", "赤泥", "碳纤维"]
-    ]
-)
+# filler_transformer = KeywordDummifier(
+#     group_names = [
+#         "filler_Toughening",
+#         "filler_Thermal Conductive",
+#         "filler_Flame Retardant",
+#         "filler_Electric-conductive/Shielding",
+#         "filler_Reinforcement"
+#     ],
+#     group_keywords = [
+#         ["TBN", "PU", "纳米氧化铝", "竹纤维", "聚醚型聚氨酯预聚物", "PES", "改性竹长纤维", "AFV", "环氧基聚硅氧烷", "端羧基丁腈橡胶"],
+#         ["BN", "Al"],
+#         ["FR", "DOPO", "APP", "磷腈基阻燃剂", "含磷介孔杂化材料", "LD", "KDC", "PVD", "PA", "PDCP", "三聚氰胺", "二乙基次磷酸铝", "含磷介孔杂化材料"],
+#         ["CN", "CB", "GR", "银粉", "镍粉", "GO", "AMGNS", "ZIF", "SiC"],
+#         ["T300", "T700", "T800", "T1100", "玻璃纤维", "云母粉", "赤泥", "碳纤维"]
+#     ]
+# )
+filler_transformer = AutoDummifier()
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "填料种类",
-    output_col_names = filler_transformer.group_names,
+    output_col_names = "Filler",
     transform = filler_transformer
 )
 
@@ -141,20 +140,21 @@ TRANSFORMATION_RECIPE.add(
 
 ##### "促进剂": "accelerator"
 # # One-hot encode into predefined groups
-accelerator_transformer = KeywordDummifier(
-    group_names = [
-        "accelerator_Amine-based",
-        "accelerator_Metal-salts",
-    ],
-    group_keywords = [
-        ["DMP", "二甲基苄胺", "TEA", "三乙胺", "咪唑", "UR"],
-        ["乙酸锌", "乙酰丙酮锌", "辛酸"]
-    ]
-)
+# accelerator_transformer = KeywordDummifier(
+#     group_names = [
+#         "accelerator_Amine-based",
+#         "accelerator_Metal-salts",
+#     ],
+#     group_keywords = [
+#         ["DMP", "二甲基苄胺", "TEA", "三乙胺", "咪唑", "UR"],
+#         ["乙酸锌", "乙酰丙酮锌", "辛酸"]
+#     ]
+# )
+accelerator_transformer = AutoDummifier()
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "促进剂",
-    output_col_names = accelerator_transformer.group_names,
+    output_col_names = "Accelerator",
     transform = accelerator_transformer
 )
 
@@ -173,26 +173,30 @@ TRANSFORMATION_RECIPE.add(
 
 ##### "温度": "temperature"
 # Custom transformer
-def temperature_transformer(col: pl.Series) -> pl.Series:
-    """
-    Extract the temperature and convert to Kelvin
+# def temperature_transformer(col: pl.Series) -> pl.Series:
+#     """
+#     Extract the temperature and convert to Kelvin
     
-    strange data: "室温", "常温"
-    """
-    parse_strings = col.str.extract(r'(\d+\.?\d*|温)', 1)
+#     strange data: "室温", "常温"
+#     """
+#     parse_strings = col.str.extract(r'(\d+\.?\d*|温)', 1)
 
-    temp_expr = (
-        pl.when(parse_strings.is_null()).then(None)
-        .when(parse_strings.str.contains("温")).then(26)
-        .otherwise(parse_strings)
-        .cast(pl.Float64, strict=False)
-        .round(2)
-        + 273.15
-    ).alias("temperature(K)")
+#     temp_expr = (
+#         pl.when(parse_strings.is_null()).then(None)
+#         .when(parse_strings.str.contains("温")).then(26)
+#         .otherwise(parse_strings)
+#         .cast(pl.Float64, strict=False)
+#         .round(2)
+#         + 273.15
+#     ).alias("temperature(K)")
     
-    # evaluate and return expression
-    return pl.select(temp_expr).to_series()
+#     # evaluate and return expression
+#     return pl.select(temp_expr).to_series()
 
+temperature_transformer = TemperatureExtractor(
+    average_mode=True,
+    convert="K"
+)
 
 TRANSFORMATION_RECIPE.add(
     input_col_name = "温度",
