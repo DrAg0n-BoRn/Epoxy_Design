@@ -1,9 +1,8 @@
-import polars as pl
 from .constants import TARGETS, RAW_TARGETS
-from ml_tools.ETL_engineering import TransformationRecipe, KeywordDummifier, NumberExtractor, TriRatioCalculator, AutoDummifier, TemperatureExtractor
+from ml_tools.ETL_engineering import DragonTransformRecipe, KeywordDummifier, NumberExtractor, TriRatioCalculator, AutoDummifier, TemperatureExtractor
 
 
-TRANSFORMATION_RECIPE = TransformationRecipe()
+TRANSFORMATION_RECIPE = DragonTransformRecipe()
 
 ##### "环氧": "epoxy"
 # One-hot encode into predefined groups
@@ -28,12 +27,11 @@ TRANSFORMATION_RECIPE = TransformationRecipe()
 #     group_keywords = epoxy_group_keywords
 # )
 
-epoxy_transformer = AutoDummifier()
-
+# Rename
 TRANSFORMATION_RECIPE.add(
     input_col_name = "环氧",
     output_col_names = "Epoxy",
-    transform = epoxy_transformer
+    transform = "rename"
 )
 
 

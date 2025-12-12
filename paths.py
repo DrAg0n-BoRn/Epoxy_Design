@@ -1,46 +1,34 @@
-from ml_tools.path_manager import PathManager
+from ml_tools.path_manager import DragonPathManager
 
 # 1. Initialize the PathManager using this file as the anchor, adding base directories.
-PM = PathManager(
+PM = DragonPathManager(
     anchor_file=__file__,
-    base_directories=["helpers", "data", "results"]
+    base_directories=["helpers", "data", "results", "clean_data"]
 )
 
 # 2. Define directories and files. Available project-wide via PM.get().
 # 2.1 📁 Directories
-PM.update({
-    "logs": PM["ROOT"] / "Logs",
-    "feature engineering": PM["data"] / "Feature Engineering",
-    "feature engineering metrics": PM["results"] / "Feature Engineering Metrics",
-    "mice datasets": PM["data"] / "MICE Datasets",
-    "mice metrics": PM["results"] / "MICE Metrics",
-    "vif datasets": PM["data"] / "VIF Datasets",
-    "vif metrics": PM["results"] / "VIF Metrics",
-    "train datasets": PM["data"] / "Train Datasets",
-    "train metrics": PM["results"] / "Train Metrics",
-    "optimization engineering": PM["data"] / "Optimization Engineering",
-    "optimization engineering metrics": PM["results"] / "Optimization Engineering Metrics",
-    "optimization train metrics": PM["results"] / "Optimization Train Metrics",
-    "optimization results": PM["results"] / "Optimization Results",
-})
+PM.logs = PM.ROOT / "logs"
+PM.feature_engineering = PM.data / "Feature Engineering"
+PM.mice_datasets = PM.data / "MICE Datasets"
+PM.mice_metrics = PM.results / "MICE Metrics"
+PM.vif_datasets = PM.data / "VIF Datasets"
+PM.vif_metrics = PM.results / "VIF Metrics"
+PM.train_metrics = PM.results / "Train Metrics"
+PM.optimization_results = PM.results / "Optimization Results"
 
 # 2.2 📁 Subdirectories
-PM.update({
-    "feature engineering clip": PM["feature engineering"] / "Feature Engineering Clip",
-    "feature engineering unclip": PM["feature engineering"] / "Feature Engineering Unclip",
-})
+PM.engineering_datasets = PM.feature_engineering / "Datasets"
+PM.engineering_artifacts = PM.feature_engineering / "Artifacts"
+
 
 # 2.3 📄 Files
-PM.update({
-    "clean data": PM["data"] / "clean_data.csv",
-    "processed data": PM["data"] / "processed_data.csv",
-    "engineered data unclip": PM["feature engineering unclip"] / "engineered_data_unclip.csv",
-    "engineered data clip": PM["feature engineering clip"] / "engineered_data_clip.csv",
-    "binary columns": PM["feature engineering"] / "BINARY_COLUMNS_list.joblib",
-    "continuous columns": PM["feature engineering"] / "CONTINUOUS_COLUMNS_list.joblib",
-    "optimization binary columns": PM["optimization engineering"] / "BINARY_COLUMNS_list.joblib",
-    "optimization continuous columns": PM["optimization engineering"] / "CONTINUOUS_COLUMNS_list.joblib",
-})
+PM.clean_data_file = PM.clean_data / "clean_data.csv"
+PM.processed_data_file = PM.data / "processed_data.csv"
+PM.engineered_data_file = PM.feature_engineering_datasets / "engineered_data.csv"
+PM.mice_dataset_file = PM.mice_datasets / "mice_dataset.csv"
+
+
 
 # 3. 🛠️ Make directories and check status
 if __name__ == "__main__":
