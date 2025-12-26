@@ -3,15 +3,9 @@ from paths import PM
 from ml_tools.ETL_engineering import DragonProcessor
 
 
-def preprocess_data() -> None:
-    """
-    Preprocesses the data by applying transformations
-    """ 
+if __name__ == "__main__":
     # instantiate processor
-    PROCESSOR = DragonProcessor(recipe=TRANSFORMATION_RECIPE)
+    processor = DragonProcessor(recipe=TRANSFORMATION_RECIPE)
     
     # Process df
-    PROCESSOR.load_transform_save(input_path=PM.clean_data_file, output_path=PM.processed_data_file)
-
-if __name__ == "__main__":
-    preprocess_data()
+    processor.load_transform_save(input_path=PM.clean_data_file, output_path=PM.processed_data_file)

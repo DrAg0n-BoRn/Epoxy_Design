@@ -1,2 +1,2 @@
-# epoxyml
+# Epoxy Composite Design
 

@@ -336,11 +336,11 @@ wheels = [
 
 [[package]]
 name = "dragon-ml-toolbox"
-version = "19.3.0"
+version = "20.2.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/41/1e/683d5a2189ae15f31ee19fbd84b84d656494d176240f45b73be496c12d46/dragon_ml_toolbox-19.3.0.tar.gz", hash = "sha256:f9bc41a58e32ef6092b89bb6e99d0b1e14b5bafe4285ac7e8d7808a7057bba7d", size = 280521, upload-time = "2025-12-11T13:42:34.814Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ba/ce/4eb8d047eb034cd17793bab68b5086536197e031384539489cd4e32177f3/dragon_ml_toolbox-20.2.0.tar.gz", hash = "sha256:7476e03f869c65cb4beb9584de6ba3b383c49b0d4fbc23321fd7922b35fbb6c7", size = 294606, upload-time = "2025-12-26T04:45:14.573Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/62/56/d795e636012f1bf725a49c0a4e10d3728b13ebd1d3cae362b4e7f7a30611/dragon_ml_toolbox-19.3.0-py3-none-any.whl", hash = "sha256:d9446ace5a2d6003934778ddab08bbac332db6a66d209f41f31e6556bfea44b6", size = 323514, upload-time = "2025-12-11T13:42:31.524Z" },
+    { url = "https://files.pythonhosted.org/packages/15/3c/e4ed2a64028ce4f93cc5c3c75e89eb03a77078207f7d4543d2b236fa82a0/dragon_ml_toolbox-20.2.0-py3-none-any.whl", hash = "sha256:7a2d9ba38619454d0ae0dd832ecbc5813983f91e956fbe4aa0aac83868445e04", size = 375265, upload-time = "2025-12-26T04:45:12.641Z" },
 ]
 
 [package.optional-dependencies]
@@ -364,13 +364,15 @@ ml = [
     { name = "scikit-learn" },
     { name = "seaborn" },
     { name = "shap" },
+    { name = "torch" },
     { name = "torchmetrics" },
+    { name = "torchvision" },
     { name = "tqdm" },
 ]
 
 [[package]]
 name = "epoxydesign"
-version = "2.0.0"
+version = "3.0.0"
 source = { virtual = "." }
 dependencies = [
     { name = "dragon-ml-toolbox", extra = ["ml"] },
@@ -385,7 +387,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "dragon-ml-toolbox", extras = ["ml"], specifier = ">=19.3.0" },
+    { name = "dragon-ml-toolbox", extras = ["ml"], specifier = "==20.2.0" },
     { name = "torch", specifier = ">=2.9.1" },
     { name = "torchvision", specifier = ">=0.24.1" },
 ]
