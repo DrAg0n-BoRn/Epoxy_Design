@@ -16,3 +16,9 @@ TARGET_flexural_strength = "Flexural Strength(MPa)"
 TARGET_elongation_at_break = "Elongation at Break(%)"
 TARGET_impact_strength = "Impact Strength(kJ/m2)"
 
+TARGETS = [
+    TARGET_tensile_strength,
+    TARGET_flexural_strength,
+    TARGET_elongation_at_break,
+    TARGET_impact_strength
+]
