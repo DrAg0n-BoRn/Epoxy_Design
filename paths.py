@@ -8,7 +8,6 @@ PM = DragonPathManager(
 
 # 2. Define directories and files. Available project-wide via PM.get().
 # 2.1 📁 Directories
-PM.logs = PM.ROOT / "logs"
 PM.feature_engineering = PM.data / "Feature Engineering"
 PM.mice_datasets = PM.data / "MICE Datasets"
 PM.mice_metrics = PM.results / "MICE Metrics"
@@ -49,6 +48,7 @@ PM.step2_data_file = PM.train_datasets / "step2.csv"
 PM.step3_data_file = PM.train_datasets / "step3.csv"
 
 # 3. 🛠️ Make directories and check status
+PM.make_dirs()
+
 if __name__ == "__main__":
-    PM.make_dirs()
     PM.status()
