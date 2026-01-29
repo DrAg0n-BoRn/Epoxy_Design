@@ -35,7 +35,7 @@ def make_optimizer_config():
     
     optimizer_config = DragonParetoConfig(save_directory=PM.optimization_results,
                                           target_objectives=target_objectives, # type: ignore
-                                          continuous_bounds_map=PM.optimization_results,
+                                          continuous_bounds_map=PM.engineering_artifacts,
                                           population_size=500,
                                           generations=1000,
                                           float_precision=2)
