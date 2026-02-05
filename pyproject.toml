@@ -5,7 +5,7 @@ description = "Epoxy composite design through machine learning"
 readme = "README.md"
 requires-python = "==3.12.*"
 dependencies = [
-    "dragon-ml-toolbox[ml]==20.14.0",
+    "dragon-ml-toolbox[ml]==20.14.1",
 ]
 
 [dependency-groups]

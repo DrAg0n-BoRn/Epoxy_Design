@@ -1,5 +1,17 @@
-from .constants import TARGET_tensile_strength, TARGET_flexural_strength, TARGET_epoxy, TARGET_curing, TARGET_filler
 from ml_tools.ETL_engineering import DragonTransformRecipe, NumberExtractor, TriRatioCalculator, TemperatureExtractor, MultiNumberExtractor
+from .constants import (TENSILE_STRENGTH,
+                        FLEXURAL_STRENGTH,
+                        ELONGATION_AT_BREAK,
+                        IMPACT_STRENGTH,
+                        EPOXY,
+                        CURING,
+                        FILLER,
+                        EPOXY_EPOXY_RATIO,
+                        EPOXY_CURING_RATIO,
+                        FILLER_PROPORTION,
+                        FILLER_PROPORTION_2,
+                        FILLER_PROPORTION_3,
+                        TEMPERATURE)
 
 
 TRANSFORMATION_RECIPE = DragonTransformRecipe()
@@ -8,7 +20,7 @@ TRANSFORMATION_RECIPE = DragonTransformRecipe()
 # Rename
 TRANSFORMATION_RECIPE.add(
     input_col_name = "环氧",
-    output_col_names = "Epoxy",
+    output_col_names = EPOXY,
     transform = "rename"
 )
 
@@ -16,7 +28,7 @@ TRANSFORMATION_RECIPE.add(
 # Rename
 TRANSFORMATION_RECIPE.add(
     input_col_name = "固化剂",
-    output_col_names = "Curing",
+    output_col_names = CURING,
     transform = "rename"
 )
 
@@ -24,7 +36,7 @@ TRANSFORMATION_RECIPE.add(
 # extract the ratio epoxy/epoxy/curing
 TRANSFORMATION_RECIPE.add(
     input_col_name = "环氧/固化剂配比",
-    output_col_names = ["Epoxy/Epoxy Ratio", "Epoxy/Curing Ratio"],
+    output_col_names = [EPOXY_EPOXY_RATIO, EPOXY_CURING_RATIO],
     transform = TriRatioCalculator(handle_zeros=True)
 )
 
@@ -32,7 +44,7 @@ TRANSFORMATION_RECIPE.add(
 # Rename
 TRANSFORMATION_RECIPE.add(
     input_col_name = "填料种类",
-    output_col_names = "Filler",
+    output_col_names = FILLER,
     transform = "rename"
 )
 
@@ -40,7 +52,7 @@ TRANSFORMATION_RECIPE.add(
 # extract multiple proportions
 TRANSFORMATION_RECIPE.add(
     input_col_name = "填料比例",
-    output_col_names = ["Filler Proportion(%)", "Filler Proportion 2(%)", "Filler Proportion 3(%)"],
+    output_col_names = [FILLER_PROPORTION, FILLER_PROPORTION_2, FILLER_PROPORTION_3],
     transform = MultiNumberExtractor(num_outputs=3)
 )
 
@@ -48,7 +60,7 @@ TRANSFORMATION_RECIPE.add(
 # Parse temperature and transform to K
 TRANSFORMATION_RECIPE.add(
     input_col_name = "温度",
-    output_col_names = "Temperature(K)",
+    output_col_names = TEMPERATURE,
     transform = TemperatureExtractor(convert="K")
 )
 
@@ -58,27 +70,27 @@ TRANSFORMATION_RECIPE.add(
 # Tensile Strength
 TRANSFORMATION_RECIPE.add(
     input_col_name="拉伸强度",
-    output_col_names=TARGET_tensile_strength,
+    output_col_names=TENSILE_STRENGTH,
     transform=NumberExtractor()
 )
 
 # Flexural strength
 TRANSFORMATION_RECIPE.add(
     input_col_name="弯曲强度",
-    output_col_names=TARGET_flexural_strength,
+    output_col_names=FLEXURAL_STRENGTH,
     transform=NumberExtractor()
 )
 
 # Elongation at break
 # TRANSFORMATION_RECIPE.add(
 #     input_col_name="断裂伸长率",
-#     output_col_names=TARGET_elongation_at_break,
+#     output_col_names=ELONGATION_AT_BREAK,
 #     transform=NumberExtractor()
 # )
 
 # Impact strength
 # TRANSFORMATION_RECIPE.add(
 #     input_col_name="冲击强度",
-#     output_col_names=TARGET_impact_strength,
+#     output_col_names=IMPACT_STRENGTH,
 #     transform=NumberExtractor()
 # )
