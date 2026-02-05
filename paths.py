@@ -15,6 +15,7 @@ PM.vif = PM.data / "VIF"
 PM.train_datasets = PM.data / "Train Datasets"
 PM.train_metrics = PM.results / "Train Metrics"
 PM.optimization_results = PM.results / "Optimization Results"
+PM.classification = PM.results / "Classification"
 
 # 2.2 📁 Subdirectories
 PM.engineering_datasets = PM.feature_engineering / "Datasets"

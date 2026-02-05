@@ -1,4 +1,4 @@
-from .constants import TARGET_tensile_strength, TARGET_flexural_strength, TARGET_elongation_at_break, TARGET_impact_strength
+from .constants import TARGET_tensile_strength, TARGET_flexural_strength, TARGET_epoxy, TARGET_curing, TARGET_filler
 from ml_tools.ETL_engineering import DragonTransformRecipe, NumberExtractor, TriRatioCalculator, TemperatureExtractor, MultiNumberExtractor
 
 
@@ -70,15 +70,15 @@ TRANSFORMATION_RECIPE.add(
 )
 
 # Elongation at break
-TRANSFORMATION_RECIPE.add(
-    input_col_name="断裂伸长率",
-    output_col_names=TARGET_elongation_at_break,
-    transform=NumberExtractor()
-)
+# TRANSFORMATION_RECIPE.add(
+#     input_col_name="断裂伸长率",
+#     output_col_names=TARGET_elongation_at_break,
+#     transform=NumberExtractor()
+# )
 
 # Impact strength
-TRANSFORMATION_RECIPE.add(
-    input_col_name="冲击强度",
-    output_col_names=TARGET_impact_strength,
-    transform=NumberExtractor()
-)
+# TRANSFORMATION_RECIPE.add(
+#     input_col_name="冲击强度",
+#     output_col_names=TARGET_impact_strength,
+#     transform=NumberExtractor()
+# )
