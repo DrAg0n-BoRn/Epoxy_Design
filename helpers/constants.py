@@ -14,8 +14,8 @@
 # Column names
 TENSILE_STRENGTH = "Tensile Strength(MPa)" #1
 FLEXURAL_STRENGTH = "Flexural Strength(MPa)" #2
-ELONGATION_AT_BREAK = "Elongation at Break(%)" #3 ⚠️
-IMPACT_STRENGTH = "Impact Strength(kJ/m2)" #4 ⚠️
+# ELONGATION_AT_BREAK = "Elongation at Break(%)" #3
+# IMPACT_STRENGTH = "Impact Strength(kJ/m2)" #4
 EPOXY = "Epoxy"
 CURING = "Curing"
 FILLER = "Filler"
