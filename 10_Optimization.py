@@ -14,7 +14,7 @@ def make_optimizer_config():
     # define optimization directions for each target
     target_objectives = {target: 'max' for target in TARGETS_REGRESSION}
     
-    optimizer_config = DragonParetoConfig(save_directory=PM.optimization_results,
+    optimizer_config = DragonParetoConfig(save_directory=PM.optimization,
                                           target_objectives=target_objectives, # type: ignore
                                           continuous_bounds_map=PM.engineering_artifacts,
                                           population_size=500,

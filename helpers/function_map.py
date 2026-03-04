@@ -1,8 +1,8 @@
 from ml_tools.ETL_engineering import DragonTransformRecipe, NumberExtractor, TriRatioCalculator, TemperatureExtractor, MultiNumberExtractor
 from .constants import (TENSILE_STRENGTH,
                         FLEXURAL_STRENGTH,
-                        ELONGATION_AT_BREAK,
-                        IMPACT_STRENGTH,
+                        # ELONGATION_AT_BREAK,
+                        # IMPACT_STRENGTH,
                         EPOXY,
                         CURING,
                         FILLER,

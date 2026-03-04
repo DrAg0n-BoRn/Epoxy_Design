@@ -1,8 +1,7 @@
 from ml_tools.optimization_tools import make_continuous_bounds_template
 from ml_tools.schema import FeatureSchema
 
-from ..paths import PM
-
+from paths import PM
 
 
 if __name__ == "__main__":

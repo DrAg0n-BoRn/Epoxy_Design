@@ -17,7 +17,7 @@ def inference_helper(artifact_directory, features_array):
 
 
 def main():
-    df = load_dataframe_greedy(directory=PM.optimization_results)
+    df = load_dataframe_greedy(directory=PM.optimization)
     
     schema = FeatureSchema.from_json(PM.engineering_artifacts)
     
