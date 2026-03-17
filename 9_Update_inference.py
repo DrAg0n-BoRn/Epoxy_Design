@@ -5,7 +5,7 @@ from ml_tools.keys import InferenceKeys
 
 from paths import PM
 from helpers.tools import make_inference
-from helpers.constants import CURING, FILLER, EPOXY
+from helpers.constants import CURING, FILLER
 
 
 def inference_helper(artifact_directory, features_array):
@@ -24,11 +24,9 @@ def main():
     df_features = df[list(schema.continuous_feature_names)]
     features_array = df_features.to_numpy()
     
-    predicted_epoxy = inference_helper(artifact_directory=PM.classification_epoxy, features_array=features_array)
     predicted_curing = inference_helper(artifact_directory=PM.classification_curing, features_array=features_array)
     predicted_filler = inference_helper(artifact_directory=PM.classification_filler, features_array=features_array)
     
-    df[EPOXY] = predicted_epoxy
     df[CURING] = predicted_curing
     df[FILLER] = predicted_filler
     

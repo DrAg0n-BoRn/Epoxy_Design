@@ -12,7 +12,7 @@ PM.clean_data_file = PM.clean_data / "clean_data.csv"
 
 ### Datasets
 PM.datasets = PM.results / "Datasets"
-PM.processed_data_file = PM.datasets / "processed_data.csv"
+PM.processed_data_file = PM.datasets / "preprocessed_data.csv"
 PM.final_data_file = PM.datasets / "predicted_samples.csv"
 
 ### Feature Engineering
@@ -30,7 +30,7 @@ PM.imputed_data_file = PM.datasets / "imputed_data.csv"
 
 ### Classification
 PM.classification = PM.results / "Classification"
-PM.classification_epoxy = PM.classification / "Epoxy"
+# PM.classification_epoxy = PM.classification / "Epoxy"
 PM.classification_filler = PM.classification / "Filler"
 PM.classification_curing = PM.classification / "Curing"
 

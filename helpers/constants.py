@@ -1,13 +1,13 @@
-# Raw targets map
+# Raw targets
 '''
     "断裂韧性": "Fracture Toughness(MPa m0.5)", # Missing 91% of data ⛔
     "弯曲强度": "Flexural Strength(MPa)",   # Missing 51% of data ⚠️
     "弯曲模量": "Flexural Modulus(MPa)",    # Missing 74% of data ⛔
-    "冲击强度": "Impact Strength(kJ/m2)",   # Missing 64% of data ⚠️
+    "冲击强度": "Impact Strength(kJ/m2)",   # Missing 64% of data ⛔️
     "杨氏模量": "Young Modulus(MPa)",   # Missing 69% of data ⛔
     "拉伸强度": "Tensile Strength(MPa)",    # Missing 23% of data ✅
     "剪切强度": "Shear Strength(MPa)", # Missing 94% of data ⛔
-    "断裂伸长率": "Elongation at Break(%)"  # Missing 63% of data ⚠️
+    "断裂伸长率": "Elongation at Break(%)"  # Missing 63% of data ⛔
 '''
 
 
@@ -16,7 +16,7 @@ TENSILE_STRENGTH = "Tensile Strength(MPa)" #1
 FLEXURAL_STRENGTH = "Flexural Strength(MPa)" #2
 # ELONGATION_AT_BREAK = "Elongation at Break(%)" #3
 # IMPACT_STRENGTH = "Impact Strength(kJ/m2)" #4
-EPOXY = "Epoxy"
+EPOXY = "Epoxy" # Use epoxy E-51 only
 CURING = "Curing"
 FILLER = "Filler"
 EPOXY_EPOXY_RATIO = "Epoxy/Epoxy Ratio"
@@ -34,7 +34,7 @@ TARGETS_REGRESSION = [
 ]
 
 TARGETS_CLASSIFICATION = [
-    EPOXY,
+    # EPOXY, # Use epoxy E-51 only
     CURING,
     FILLER
 ]

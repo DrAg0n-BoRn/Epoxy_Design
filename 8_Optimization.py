@@ -1,4 +1,4 @@
-from ml_tools.ML_models import DragonNodeModel, DragonGateModel
+from ml_tools.ML_models import DragonNodeModel, DragonTabNet
 from ml_tools.ML_inference import DragonChainInference
 from ml_tools.ML_optimization import DragonParetoOptimizer
 from ml_tools.ML_configuration import DragonParetoConfig
@@ -27,7 +27,7 @@ def make_optimizer_config():
 def main():
     # make inference handlers
     handler_1 = make_inference(artifact_directory=PM.chain_tensile, model_class=DragonNodeModel)
-    handler_2 = make_inference(artifact_directory=PM.chain_flexural, model_class=DragonGateModel)
+    handler_2 = make_inference(artifact_directory=PM.chain_flexural, model_class=DragonTabNet)
     
     # make chain inference
     chain_inference = DragonChainInference(handlers=[handler_1, 
