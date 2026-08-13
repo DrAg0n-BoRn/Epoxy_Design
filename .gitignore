@@ -53,6 +53,7 @@ venv.bak/
 *.jpg
 *.ico
 *.icns
+Icon?
 
 # Files and Directories
 *.joblib
